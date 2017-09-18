@@ -35,16 +35,52 @@ class Id3Tree:
             return True
 
          #removes data that is no longer necessary after a tree is fully grown
-         def clean():
+         def clean(self):
             self.remainingAttributes = None 
             self.remainingStimuli = None
+
+         #not done
+         def IG(self, dataSet, attr):
+            stimTuple = self.genStimList(dataSet, attr)
+            sizeZero = len(stimTuple[0])
+            sizeOne = len(stimTuple[1])
+            return self.entropy(dataSet) - 
+
+         def entropy(self, dataSet):
+            return entropy(dataSet, self.remainingStimuli)
+            
+         def genStimLists(self, dataSet, attr):
+            listZero = list(filter(lambda x: dataSet[attr][x] == 0, self.remainingStimuli))
+            listOne = list(filter(lambda x: dataSet[attr][x] == 1, self.remainingStimuli))
+            return (listZero, ListOne)
+
+         def clasDist(self, dataSet, stimuliList):
+            ones = len(filter(lambda x: dataSet["Class"] == 1, stimuliList))
+            zeros = len(filter(lambda x: dataSet["Class"] == 1, stimuliList))
+            return (zeros, ones)
+
+         def isPure(self, dataSet, stimuliList = self.remainingStimuli):
+            if len(stimuliList) < 2:
+               return True
+            y = stimuliList[0]
+            for x in stimuliList:
+               if dataSet["Class"][x] != y:
+                  return False
+            return True
+
+
 
    def __init__(self):
       #probably would be useful for pruning algorithm
       self.leafNodes=[]
       
    def train(self, trainSet):
-      
+      attributeList = list(trainSet.keys())
+      stimuliList = list(range(trainSet.shape[0]))
+      node = Node(None, [],attributeList, stimuliList, None, None)
+
+      for attr in node.remainingAttributes:
+         
    def classify(self, data):
 
    def prune(self):
